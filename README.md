@@ -14,6 +14,7 @@ User Stories: Geography Section
 13. As a player, I want questions to cover both physical (rivers, mountains) and political geography (countries, capitals), so that the challenge is well-rounded.
 14. As a player, I want to see a leaderboard ranking after a geography match, so that I can compare my performance with others.
 15. As a player, I want the geography game mode to track my personal statistics over time, so that I can measure how my knowledge improves.
+
 User Stories – General Knowledge Gameplay 
 1.	As a player, I want to receive trivia questions from a wide range of categories (e.g., history, science, sports, pop culture) so I can broaden my knowledge.,
 2.	As a player, I want the option to select a category before starting so I can focus on topics I enjoy or want to improve in.,
@@ -25,6 +26,7 @@ User Stories – General Knowledge Gameplay
 8.	As a player, I want questions to gradually increase in difficulty as I progress so the challenge adapts to my performance.,
 9.	As a player, I want the ability to skip a difficult question so I don’t get stuck and frustrated.,
 10.	As a player, I want my score to be tracked and displayed at the end of the game so I can measure my performance.
+
 Multiplayer Mechanics – User Stories
 Description: I created 10 user stories for section 4 on multiplayer mechanics
 1.	I want to compete against players in real time so the game feels more interactive and competitive 
@@ -37,6 +39,7 @@ Description: I created 10 user stories for section 4 on multiplayer mechanics
 8.	As a player, I want to see when my opponent has answered so I feel more engaged.
 9.	As a player, I want to see a clear win/lose/draw summary at the end of the match so the outcome is obvious. 
 10.	 I want the game to handle if my opponent quits mid-match so I don’t waste time and can either win by default or get a rematch option.
+
 Scoring, Rewards & Progress – User Stories
 1.	Players should gain points for correct answers, so their performance feels recognised and rewarded.,
 2.	Points should be deducted for wrong answers, so the scoring system feels balanced and competitive.,
@@ -48,7 +51,6 @@ Scoring, Rewards & Progress – User Stories
 8.	A leaderboard across multiple games should highlight top performers so players can compare results over time.,
 9.	Personal statistics like win rate and average score should be recorded so players can measure improvement.,
 10.	Progress and rewards should be saved between sessions, so players feel that their effort carries over into future matches.
-
 
 User Stories for Mathematics Gameplay Feature:
 1.	As a player, I want to be able to choose the mathematics category so that I can practice math-specific questions.
