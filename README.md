@@ -1,4 +1,4 @@
-<img width="451" height="696" alt="image" src="https://github.com/user-attachments/assets/a1065250-49a2-49fe-8d9a-de318af014a6" />User Stories: Geography Section
+Stories: Geography Section
 1. As a player, I want to answer questions about countries, capitals, and landmarks, so that I can test and improve my geography knowledge.
 2. As a player, I want to see a map-based question format, so that the game is more interactive and visually engaging.
 3. As a player, I want the difficulty of geography questions to scale from easy to hard, so that I feel challenged as I improve.
@@ -33,5 +33,5 @@ As a player, I want to see visual graphs, shapes and clear diagrams for geometri
 As a player, I want to solve puzzles that combine multiple math skills (algebra + probability, etc.) so that gameplay feels more challenging.
 As a player, I want to see hints for tricky math questions so that I can still progress without feeling stuck.
 As a player, I want to access a “Practice Math Mode” outside battles so that I can improve my skills before challenging others.
-<img width="451" height="674" alt="image" src="https://github.com/user-attachments/assets/ad81362b-90b5-4274-b3d3-d96270525067" />
+
 
