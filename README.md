@@ -1,4 +1,4 @@
-Stories: Geography Section
+User Stories: Geography Section
 1. As a player, I want to answer questions about countries, capitals, and landmarks, so that I can test and improve my geography knowledge.
 2. As a player, I want to see a map-based question format, so that the game is more interactive and visually engaging.
 3. As a player, I want the difficulty of geography questions to scale from easy to hard, so that I feel challenged as I improve.
@@ -14,24 +14,59 @@ Stories: Geography Section
 13. As a player, I want questions to cover both physical (rivers, mountains) and political geography (countries, capitals), so that the challenge is well-rounded.
 14. As a player, I want to see a leaderboard ranking after a geography match, so that I can compare my performance with others.
 15. As a player, I want the geography game mode to track my personal statistics over time, so that I can measure how my knowledge improves.
+User Stories – General Knowledge Gameplay 
+1.	As a player, I want to receive trivia questions from a wide range of categories (e.g., history, science, sports, pop culture) so I can broaden my knowledge.,
+2.	As a player, I want the option to select a category before starting so I can focus on topics I enjoy or want to improve in.,
+3.	As a player, I want each question to have multiple-choice answers so I can pick from possible options rather than type responses.,
+4.	As a player, I want to see a timer for each question so the game feels more exciting and competitive.,
+5.	As a player, I want to receive immediate feedback on whether my answer was correct or not so I can learn from my mistakes.,
+6.	As a player, I want to see an explanation or fun fact after answering so I can gain more knowledge beyond just right or wrong.,
+7.	As a player, I want to earn points for correct answers so I feel rewarded for my knowledge.,
+8.	As a player, I want questions to gradually increase in difficulty as I progress so the challenge adapts to my performance.,
+9.	As a player, I want the ability to skip a difficult question so I don’t get stuck and frustrated.,
+10.	As a player, I want my score to be tracked and displayed at the end of the game so I can measure my performance.
+Multiplayer Mechanics – User Stories
+Description: I created 10 user stories for section 4 on multiplayer mechanics
+1.	I want to compete against players in real time so the game feels more interactive and competitive 
+2.	If my game connection fails, i want to be able to rejoin the match if I briefly disconnect so I don't lose the game
+3.	I want to be able to create a private room for me and my friends
+4.	As a player, I want a quick matchmaking option so I can find an opponent without long waits.
+5.	I want me and my opponent to receive the same questions at the same time so the match is fair.
+6.	As a player, I want to see my score and my opponent’s score during the game so I can track progress. 
+7.	I want the game to wait until both players have finished (or the timer runs out) before moving to the next question so the match stays in sync. 
+8.	As a player, I want to see when my opponent has answered so I feel more engaged.
+9.	As a player, I want to see a clear win/lose/draw summary at the end of the match so the outcome is obvious. 
+10.	 I want the game to handle if my opponent quits mid-match so I don’t waste time and can either win by default or get a rematch option.
+Scoring, Rewards & Progress – User Stories
+1.	Players should gain points for correct answers, so their performance feels recognised and rewarded.,
+2.	Points should be deducted for wrong answers, so the scoring system feels balanced and competitive.,
+3.	The game needs to display a live score counter so players can track their progress while playing.,
+4.	Both my score and my opponent’s score should be visible during the match so I can see how close the contest is.,
+5.	The system should award small milestones (e.g., “3 correct in a row”) to keep motivation high during play.,
+6.	Fast responses should give bonus points, so players are rewarded for both speed and accuracy.,
+7.	At the end of each match, a results screen should show the winner plus a breakdown of right/wrong answers for reflection.,
+8.	A leaderboard across multiple games should highlight top performers so players can compare results over time.,
+9.	Personal statistics like win rate and average score should be recorded so players can measure improvement.,
+10.	Progress and rewards should be saved between sessions, so players feel that their effort carries over into future matches.
 
-16. User Stories for Mathematics Gameplay Feature:
-As a player, I want to be able to choose the mathematics category so that I can practice math-specific questions.
-As a player, I want to access different difficulties such as easy, medium and hard to test my mathematical skills and knowledge.
-As a player, I want to see a countdown timer for each math question so that I know how much time I have left to answer.
-As a player, I want to play “speed rounds” with only 5 seconds per math question so that I can test my reaction time.
-As a player, I want to answer both multiple-choice and short-answer math questions so that I can improve and apply my knowledge in various ways.
-As a player, I want to see math questions rendered with proper symbols and formatting (fractions, exponents, square roots, etc.) so that they are easy to read and solve.
-As a player, I want to practice specific subtopics (e.g., algebra, geometry, probability, calculus etc.) so that I can improve in my weak areas.
-As a player, I want to compete in real-time against my opponent on the same set of math questions so that the game feels competitive and balanced.
-As a player, I want to earn points based on both speed and accuracy of my math answers so that I’m rewarded for thinking fast as well as correctly.
-As a player, I want to view step-by-step solutions for each question at the end of each round so that I can learn from my mistakes.
-As a player, I want to receive instant feedback after each question showing whether my math answer was correct or incorrect so that I can learn while playing.
-As a player, I want to review my math mistakes after the match so that I know exactly where I went wrong.
-As a player, I want to view my math performance stats after the match (accuracy %, average response time, score) so that I can measure my improvement.
-As a player, I want to see visual graphs, shapes and clear diagrams for geometric questions so that I can better understand the problems.
-As a player, I want to solve puzzles that combine multiple math skills (algebra + probability, etc.) so that gameplay feels more challenging.
-As a player, I want to see hints for tricky math questions so that I can still progress without feeling stuck.
-As a player, I want to access a “Practice Math Mode” outside battles so that I can improve my skills before challenging others.
+
+User Stories for Mathematics Gameplay Feature:
+1.	As a player, I want to be able to choose the mathematics category so that I can practice math-specific questions.
+2.	As a player, I want to access different difficulties such as easy, medium and hard to test my mathematical skills and knowledge.
+3.	As a player, I want to see a countdown timer for each math question so that I know how much time I have left to answer.
+4.	As a player, I want to play “speed rounds” with only 5 seconds per math question so that I can test my reaction time.
+5.	As a player, I want to answer both multiple-choice and short-answer math questions so that I can improve and apply my knowledge in various ways.
+6.	As a player, I want to see math questions rendered with proper symbols and formatting (fractions, exponents, square roots, etc.) so that they are easy to read and solve.
+7.	As a player, I want to practice specific subtopics (e.g., algebra, geometry, probability, calculus etc.) so that I can improve in my weak areas.
+8.	As a player, I want to compete in real-time against my opponent on the same set of math questions so that the game feels competitive and balanced.
+9.	As a player, I want to earn points based on both speed and accuracy of my math answers so that I’m rewarded for thinking fast as well as correctly.
+10.	As a player, I want to view step-by-step solutions for each question at the end of each round so that I can learn from my mistakes.
+11.	As a player, I want to receive instant feedback after each question showing whether my math answer was correct or incorrect so that I can learn while playing.
+12.	As a player, I want to review my math mistakes after the match so that I know exactly where I went wrong.
+13.	As a player, I want to view my math performance stats after the match (accuracy %, average response time, score) so that I can measure my improvement
+14.	As a player, I want to see visual graphs, shapes and clear diagrams for geometric questions so that I can better understand the problems.
+15.	As a player, I want to solve puzzles that combine multiple math skills (algebra + probability, etc.) so that gameplay feels more challenging.
+16.	As a player, I want to see hints for tricky math questions so that I can still progress without feeling stuck.
+17.	As a player, I want to access a “Practice Math Mode” outside battles so that I can improve my skills before challenging others.
 
 
