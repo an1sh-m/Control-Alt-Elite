@@ -38,7 +38,7 @@ Description: I created 10 user stories for section 4 on multiplayer mechanics
 7.	I want the game to wait until both players have finished (or the timer runs out) before moving to the next question so the match stays in sync. 
 8.	As a player, I want to see when my opponent has answered so I feel more engaged.
 9.	As a player, I want to see a clear win/lose/draw summary at the end of the match so the outcome is obvious. 
-10.	 I want the game to handle if my opponent quits mid-match so I don’t waste time and can either win by default or get a rematch option.
+10.	 I want the game to handle if my opponent quits mid-match so I don’t waste time and can either win by default or get a rematch option. 
 
 Scoring, Rewards & Progress – User Stories
 1.	Players should gain points for correct answers, so their performance feels recognised and rewarded.,
