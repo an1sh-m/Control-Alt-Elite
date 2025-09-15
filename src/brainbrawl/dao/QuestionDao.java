@@ -9,4 +9,7 @@ public interface QuestionDao {
     Optional<Question> findById(long id);
     List<Question> findAll();
     // teammate will add: update(Question q), deleteById(long id)
+
+    boolean update(Question q);      // returns true if a row was updated
+    boolean deleteById(long id);     // returns true if a row was deleted
 }

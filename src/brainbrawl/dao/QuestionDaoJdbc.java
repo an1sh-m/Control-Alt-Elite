@@ -61,6 +61,39 @@ public class QuestionDaoJdbc implements QuestionDao {
         }
     }
 
+    @Override
+    public boolean update(Question q) {
+        if (q.getId() == null) throw new IllegalArgumentException("ID required for update");
+        String sql = """
+        UPDATE questions
+        SET category=?, text=?, type=?, options_text=?, correct_index=?, difficulty=?
+        WHERE id=?
+    """;
+        try (Connection c = Db.connect(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, q.getCategory());
+            ps.setString(2, q.getText());
+            ps.setString(3, q.getType().name());
+            ps.setString(4, q.getOptions() == null ? null : Question.joinOptions(q.getOptions()));
+            if (q.getCorrectIndex() == null) ps.setNull(5, Types.INTEGER); else ps.setInt(5, q.getCorrectIndex());
+            ps.setInt(6, q.getDifficulty());
+            ps.setLong(7, q.getId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Update failed", e);
+        }
+    }
+
+    @Override
+    public boolean deleteById(long id) {
+        String sql = "DELETE FROM questions WHERE id=?";
+        try (Connection c = Db.connect(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setLong(1, id);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException("Delete failed", e);
+        }
+    }
+
     private Question mapRow(ResultSet rs) throws SQLException {
         Long id = rs.getLong("id");
         String category = rs.getString("category");

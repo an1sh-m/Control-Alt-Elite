@@ -1,6 +1,9 @@
 <component name="libraryTable">
   <library name="openjfx.javafx.controls" type="repository">
     <properties maven-id="org.openjfx:javafx-controls:21.0.3" />
+    <ANNOTATIONS>
+      <root url="file://$MAVEN_REPOSITORY$/org/slf4j/slf4j-simple" />
+    </ANNOTATIONS>
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/21.0.3/javafx-controls-21.0.3.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/21.0.3/javafx-controls-21.0.3-win.jar!/" />
