@@ -402,3 +402,95 @@ Acceptance Criteria:
 - Then I should see a breakdown of my correct/incorrect answers by topic, average response time, and improvement suggestions.
 
 
+Section 6 
+
+Story 1
+
+As a player, I want my match results to be saved automatically to the database so that I don’t lose my progress after finishing a game.
+
+Acceptance Criteria:
+Given a match has concluded,
+ When the end-of-game event fires, 
+Then a single match record (player IDs, opponent, category, score, accuracy, timestamp, outcome) is stored.
+
+story 2
+
+As a returning player, I want to view all my past matches so that I can reflect on performance over time.
+
+Acceptance Criteria:
+Given I’m authenticated
+When I open Match History 
+Then I can see all my matches that I won, loss and the result.
+
+Story 3
+
+As a  player, I want detailed stats for each past game (score, accuracy, opponent) so that I can analyse individual performance.
+
+Acceptance Criteria:
+Given a history list
+ When I select a match,
+ Then a details view shows score, accuracy, opponent, questions and correct/wrong answers 
+
+story 4
+
+As a player, I want my total wins and losses recorded so that I can track progress.
+
+Acceptance Criteria:
+Given a match finishes,
+ When the outcome is determined, 
+Then my wins or losses counter updates atomically.
+
+ Story 5 
+ 
+ As a player, I want my average score displayed so that I can measure consistency.
+
+Acceptance Criteria:
+Given more than 1 match has been completed
+When I view stats, 
+Then average score = total score ÷ number of matches 
+
+
+story 6
+
+As a  player, I want personal bests highlighted per category so that I can celebrate milestones and aim to beat them.
+
+Acceptance Criteria:
+Given history data,
+ When viewing category stats, 
+Then the highest score in each category is labeled “PB”.
+
+story 7 
+As a player, I want to filter my stats by category (Maths, Geography, General Knowledge) so that I can target improvements.
+
+Acceptance Criteria:
+Given categories exist, 
+When I apply one or more category filters,
+ Then the history list and aggregates update to only those categories.
+
+story 8 
+As a player, I want opponent comparison stats so that I can see performance against different players
+
+Acceptance Criteria:
+Given im versing an Opponent 
+When I select an opponent, 
+Then I see how many wins and losses they have and there average score 
+
+story 9
+As a player, I want to see my current and best winning streaks so that I stay engaged.
+
+Acceptance Criteria:
+Given my match history
+ When I open Streaks
+ Then the current win streak and best win streak are displayed.
+
+story 10 
+
+As a long-term tracker, I want weekly or monthly summaries so that I can monitor improvement trends.
+
+Acceptance Criteria
+Given a selected period (Weekly/Monthly) 
+When I open Summary
+ Then it shows matches played, Win-Losses average score, and average accuracy for that period.
+
+
+
