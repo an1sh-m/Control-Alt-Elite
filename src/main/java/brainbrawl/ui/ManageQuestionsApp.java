@@ -154,7 +154,7 @@ public class ManageQuestionsApp extends Application {
         table.getItems().setAll(svc.listAll());
     }
 
-    private void clearForm(TextField cat, TextField q, TextField opts, Spinner<Integer> corr, Spinner<Integer> diff, ComboBox<String> type) {
+    public void clearForm(TextField cat, TextField q, TextField opts, Spinner<Integer> corr, Spinner<Integer> diff, ComboBox<String> type) {
         cat.clear(); q.clear(); opts.clear();
         corr.getValueFactory().setValue(0);
         diff.getValueFactory().setValue(1);
