@@ -31,9 +31,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="0f1da4a1-9370-4a86-998a-27bebf9b9014" object-ref="consoles/Connection" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="0f1da4a1-9370-4a86-998a-27bebf9b9014" />
