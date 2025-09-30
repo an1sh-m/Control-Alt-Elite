@@ -1,4 +1,4 @@
-package brainbrawl;
+package brainbrawl.ui;
 
 import brainbrawl.dao.UserDaoJdbc;
 import brainbrawl.service.AuthService;

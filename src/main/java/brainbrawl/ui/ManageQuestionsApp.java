@@ -1,5 +1,7 @@
 package brainbrawl.ui;
 
+import brainbrawl.ui.LoginController;
+import brainbrawl.ui.RegisterController;
 import brainbrawl.dao.QuestionDaoJdbc;
 import brainbrawl.db.Db;
 import brainbrawl.model.Question;

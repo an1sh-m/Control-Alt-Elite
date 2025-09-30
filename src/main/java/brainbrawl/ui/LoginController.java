@@ -1,6 +1,6 @@
 package brainbrawl.ui;
 
-import brainbrawl.AppServices;
+import brainbrawl.service.AppServices;
 import brainbrawl.service.AuthService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
