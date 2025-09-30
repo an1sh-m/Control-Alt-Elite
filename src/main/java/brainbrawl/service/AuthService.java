@@ -1,14 +1,17 @@
 package brainbrawl.service;
 
-import brainbrawl.model.User;
 import brainbrawl.dao.UserDao;
+import brainbrawl.model.User;
+
 import java.util.Optional;
 
 public class AuthService {
     private final UserDao userDao;
     private User currentUser;
 
-    public AuthService(UserDao userDao) { this.userDao = userDao; }
+    public AuthService(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     public boolean login(String username, String password) {
         Optional<User> u = userDao.authenticate(username, password);
@@ -16,7 +19,15 @@ public class AuthService {
         return u.isPresent();
     }
 
-    public void logout() { currentUser = null; }
-    public boolean isLoggedIn() { return currentUser != null; }
-    public User getCurrentUser() { return currentUser; }
+    public boolean register(String username, String password) {
+        return userDao.createUser(username, password);
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void logout() {
+        currentUser = null;
+    }
 }

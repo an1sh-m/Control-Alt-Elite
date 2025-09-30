@@ -3,6 +3,7 @@ package brainbrawl.dao;
 import brainbrawl.db.Db;
 import brainbrawl.model.User;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.sql.*;
@@ -44,9 +45,11 @@ public class UserDaoJdbc implements UserDao {
             byte[] salt = Base64.getDecoder().decode(base64Salt);
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update(salt);
-            byte[] out = md.digest(plain.getBytes("UTF-8"));
+            byte[] out = md.digest(plain.getBytes(StandardCharsets.UTF_8));
             return Base64.getEncoder().encodeToString(out);
-        } catch (Exception e) { throw new RuntimeException(e); }
+        } catch (Exception e) {
+            throw new RuntimeException("Password hashing failed", e);
+        }
     }
 
     private static boolean verify(String plain, String base64Salt, String expectedHash) {
@@ -63,10 +66,14 @@ public class UserDaoJdbc implements UserDao {
                 long id = rs.getLong("id");
                 String hash = rs.getString("password_hash");
                 String salt = rs.getString("salt");
-                if (verify(plainPassword, salt, hash)) return Optional.of(new User(id, username));
+                if (verify(plainPassword, salt, hash)) {
+                    return Optional.of(new User(id, username));
+                }
                 return Optional.empty();
             }
-        } catch (SQLException e) { throw new RuntimeException("Auth failed", e); }
+        } catch (SQLException e) {
+            throw new RuntimeException("Auth failed", e);
+        }
     }
 
     @Override
@@ -80,7 +87,7 @@ public class UserDaoJdbc implements UserDao {
             ps.setString(3, salt);
             return ps.executeUpdate() == 1;
         } catch (SQLException e) {
-            // likely UNIQUE constraint violation
+            // likely UNIQUE(username) violation
             return false;
         }
     }
@@ -94,7 +101,9 @@ public class UserDaoJdbc implements UserDao {
                 if (rs.next()) return Optional.of(new User(rs.getLong("id"), username));
                 return Optional.empty();
             }
-        } catch (SQLException e) { throw new RuntimeException(e); }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Optional: seed an admin user on first run
