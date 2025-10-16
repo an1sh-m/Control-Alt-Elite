@@ -14,6 +14,12 @@ public class LoginController {
 
     private final AuthService auth = AppServices.auth();
 
+    private Runnable onLoginSuccess;
+
+    public void setOnLoginSuccess(Runnable onLoginSuccess) {
+        this.onLoginSuccess = onLoginSuccess;
+    }
+
     @FXML
     public void onLoginClick() {
         String u = usernameField.getText().trim();
@@ -26,9 +32,11 @@ public class LoginController {
 
         boolean ok = auth.login(u, p);
         if (ok) {
-            // TODO: navigate to Lobby/Home scene
-            // e.g., SceneNavigator.goTo("lobby.fxml");
             alertInfo("Login successful. Welcome " + auth.getCurrentUser().getUsername() + "!");
+
+            if (onLoginSuccess != null) {
+                onLoginSuccess.run();
+            }
         } else {
             alert("Incorrect username or password.");
         }
