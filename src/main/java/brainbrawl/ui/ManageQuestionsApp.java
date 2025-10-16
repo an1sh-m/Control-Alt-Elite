@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -31,13 +32,17 @@ public class ManageQuestionsApp extends Application {
 
         // load login first
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainbrawl/ui/login.fxml"));
-        Scene loginScene = new Scene(loader.load());
+        Parent root = loader.load();  // load FXML first
+
+        // get controller and set login success callback
+        LoginController controller = loader.getController();
+        controller.setOnLoginSuccess(() -> showMainApp(stage));
+
+        // set scene and show
+        Scene loginScene = new Scene(root);
         stage.setScene(loginScene);
         stage.setTitle("BrainBrawl — Login");
         stage.show();
-
-        LoginController controller = loader.getController();
-        controller.setOnLoginSuccess(() -> showMainApp(stage));
     }
 
     /**
