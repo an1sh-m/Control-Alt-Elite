@@ -31,7 +31,7 @@ public class ManageQuestionsApp extends Application {
         Db.init();
 
         // load login first
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/brainbrawl/ui/login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/BrainBrawl/login.fxml"));
         Parent root = loader.load();  // load FXML first
 
         // get controller and set login success callback
