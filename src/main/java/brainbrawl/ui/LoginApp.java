@@ -15,6 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+
 import java.net.URL;
 import java.util.Optional;
 
@@ -68,7 +71,6 @@ public class LoginApp extends Application {
         error.getStyleClass().add("error-text");
         error.setWrapText(true);
 
-        // --- Form (fixed width column) ---
         VBox form = new VBox(12,
                 new Label("Welcome back 👋"),
                 username,
@@ -87,7 +89,6 @@ public class LoginApp extends Application {
         cardInner.setAlignment(Pos.TOP_LEFT);
         cardInner.setMaxWidth(520);
 
-        // --- Card container (centered) ---
         VBox card = new VBox(cardInner);
         card.getStyleClass().add("card");
         card.setPadding(new Insets(24));
@@ -95,12 +96,10 @@ public class LoginApp extends Application {
 
         StackPane root = new StackPane(card);
         root.getStyleClass().add("app-root");
-        StackPane.setAlignment(card, Pos.CENTER);
-
         Scene scene = new Scene(root, 980, 620);
         addCss(scene, "/BrainBrawl/login.css");
 
-        // Actions
+        // Handle login
         loginBtn.setDefaultButton(true);
         loginBtn.setOnAction(e -> {
             error.setText("");
@@ -108,7 +107,7 @@ public class LoginApp extends Application {
             String p = (passwordHidden.isVisible() ? passwordHidden : passwordShown).getText();
             if (u.isEmpty() || p.isEmpty()) { error.setText("Please enter both username and password."); return; }
             Optional<User> user = userDao.authenticate(u, p);
-            if (user.isPresent()) openApp(stage, user.get());
+            if (user.isPresent()) openHome(stage);
             else error.setText("Invalid username or password.");
         });
 
@@ -125,7 +124,24 @@ public class LoginApp extends Application {
         stage.show();
     }
 
-    // Helpers
+    /** Load the Home page into the SAME stage. */
+    private void openHome(Stage stage) {
+        try {
+            // NOTE: HomePage.fxml is under /BrainBrawl/ (no "ui" folder)
+            URL url = LoginApp.class.getResource("/BrainBrawl/HomePage.fxml");
+            if (url == null)
+                throw new IllegalStateException("HomePage.fxml not found at /BrainBrawl/HomePage.fxml");
+            Parent home = FXMLLoader.load(url);
+            Scene homeScene = new Scene(home, 1200, 720);
+            stage.setTitle("BrainBrawl – Home");
+            stage.setScene(homeScene);
+            stage.show();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Failed to open Home: " + ex.getMessage()).showAndWait();
+        }
+    }
+
     private static void addCss(Scene scene, String path) {
         URL url = LoginApp.class.getResource(path);
         if (url != null) scene.getStylesheets().add(url.toExternalForm());
@@ -134,21 +150,10 @@ public class LoginApp extends Application {
 
     private static ImageView loadLogo(String path, double height) {
         URL url = LoginApp.class.getResource(path);
-        if (url == null) { System.err.println("WARN: Logo not found: " + path); return null; }
-        Image img = new Image(url.toExternalForm(), 0, height, true, true); // constrain by height
+        if (url == null) return null;
+        Image img = new Image(url.toExternalForm(), 0, height, true, true);
         ImageView iv = new ImageView(img);
         iv.setPreserveRatio(true);
         return iv;
-    }
-
-    private void openApp(Stage loginStage, User user) {
-        ManageQuestionsApp app = new ManageQuestionsApp();
-        Stage appStage = new Stage();
-        try {
-            app.start(appStage);
-            loginStage.close();
-        } catch (Exception ex) {
-            new Alert(Alert.AlertType.ERROR, "Failed to open app: " + ex.getMessage()).showAndWait();
-        }
     }
 }
