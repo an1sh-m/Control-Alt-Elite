@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,18 +23,18 @@ public class ManageQuestionsAppTest {
         ManageQuestionsApp app = new ManageQuestionsApp();
 
         TextField cat = new TextField("Maths");
-        TextField q = new TextField("2+2?");
-        TextField opts = new TextField("1,2");
+        TextArea q = new TextArea("2+2?");
+        TextArea opts = new TextArea("1,2");
         Spinner<Integer> corr = new Spinner<>(0, 5, 2);
         Spinner<Integer> diff = new Spinner<>(1, 5, 3);
-        ComboBox<String> type = new ComboBox<>();
-        type.getItems().addAll("MCQ","SHORT");
-        type.getSelectionModel().select("SHORT");
+        ComboBox<Question.Type> type = new ComboBox<>();
+        type.getItems().addAll(Question.Type.MCQ, Question.Type.SHORT);
+        type.getSelectionModel().select(Question.Type.SHORT);
 
-        app.clearForm(cat, q, opts, corr, diff, type);
+        app.clearForm(cat, q, opts, type, corr, diff);
 
         assertEquals("", cat.getText());
-        assertEquals("MCQ", type.getValue());
+        assertEquals(Question.Type.MCQ, type.getValue());
         assertEquals(0, corr.getValue());
         assertEquals(1, diff.getValue());
     }

@@ -276,12 +276,12 @@ public class ManageQuestionsApp extends Application {
 
     // ====================== UI helpers ======================
 
-    private void clearForm(TextField tfCategory,
-                           TextArea taText,
-                           TextArea taOptions,
-                           ComboBox<Question.Type> cbType,
-                           Spinner<Integer> spCorrect,
-                           Spinner<Integer> spDiff) {
+    void clearForm(TextField tfCategory,
+                   TextArea taText,
+                   TextArea taOptions,
+                   ComboBox<Question.Type> cbType,
+                   Spinner<Integer> spCorrect,
+                   Spinner<Integer> spDiff) {
         tfCategory.clear();
         taText.clear();
         taOptions.clear();
