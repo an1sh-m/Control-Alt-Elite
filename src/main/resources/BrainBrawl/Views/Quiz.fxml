@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="brainbrawl.ui.QuizController"
+      spacing="18" alignment="TOP_CENTER" prefWidth="1200" prefHeight="720"
+      style="-fx-background-color: linear-gradient(to bottom right, #dbeafe, #e0f2fe); -fx-padding: 28;">
+    <!-- Header -->
+    <HBox alignment="CENTER_LEFT" spacing="12" maxWidth="1100">
+        <Label fx:id="titleLabel" text="Maths Quiz" style="-fx-font-size: 28px; -fx-font-weight: 800;"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Label fx:id="progressLabel" text="Q 1/10" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <Button fx:id="backBtn" text="Back" onAction="#handleBackToHome"/>
+    </HBox>
+
+    <!-- Card -->
+    <VBox spacing="16" alignment="CENTER" maxWidth="800"
+          style="-fx-background-color: white; -fx-background-radius: 18; -fx-padding: 24;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 14, 0.2, 0, 4);">
+        <Label fx:id="questionLabel" text="Question text..." wrapText="true"
+               style="-fx-font-size: 22px; -fx-font-weight: 700;"/>
+        <TextField fx:id="answerField" promptText="Enter your answer"/>
+        <Label fx:id="feedbackLabel" text="" style="-fx-font-size: 14px;"/>
+        <Button fx:id="primaryBtn" text="Submit" onAction="#onPrimary" maxWidth="200"/>
+    </VBox>
+</VBox>
