@@ -2,22 +2,17 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="brainbrawl.ui.HomeController"
             stylesheets="@/BrainBrawl/styles/home.css"
             prefWidth="1200" prefHeight="720">
 
-
-    <!-- Top bar -->
     <top>
         <HBox id="titleBar" spacing="12" alignment="CENTER_LEFT">
             <Label fx:id="appTitle" id="appTitle" text="BRAIN BRAWL"/>
             <Pane HBox.hgrow="ALWAYS"/>
-            <!-- Right rail mini icons -->
             <HBox spacing="12">
                 <Label text="👤" styleClass="roundIcon"/>
                 <Label text="⚙️" styleClass="roundIcon"/>
@@ -25,7 +20,6 @@
         </HBox>
     </top>
 
-    <!-- Main content -->
     <center>
         <HBox spacing="24" alignment="TOP_CENTER">
             <!-- LEFT: Category panel -->
@@ -41,19 +35,15 @@
                         <!-- Maths -->
                         <VBox GridPane.rowIndex="0" GridPane.columnIndex="0" spacing="10" alignment="CENTER">
                             <StackPane onMouseClicked="#onMaths" styleClass="category">
-                                <StackPane styleClass="iconCircle">
-                                    <Label text="➕➖"/>
-                                </StackPane>
+                                <StackPane styleClass="iconCircle"><Label text="➕➖"/></StackPane>
                             </StackPane>
                             <Label text="Maths" styleClass="category-label"/>
                         </VBox>
 
-                        <!-- General Knowledge -->
+                        <!-- General -->
                         <VBox GridPane.rowIndex="0" GridPane.columnIndex="1" spacing="10" alignment="CENTER">
                             <StackPane onMouseClicked="#onGeneral" styleClass="category">
-                                <StackPane styleClass="iconCircle">
-                                    <Label text="💡"/>
-                                </StackPane>
+                                <StackPane styleClass="iconCircle"><Label text="💡"/></StackPane>
                             </StackPane>
                             <Label text="General" styleClass="category-label"/>
                         </VBox>
@@ -62,9 +52,7 @@
                         <VBox GridPane.rowIndex="1" GridPane.columnIndex="0" GridPane.columnSpan="2"
                               spacing="10" alignment="CENTER">
                             <StackPane onMouseClicked="#onGeography" styleClass="category" maxWidth="220">
-                                <StackPane styleClass="iconCircle">
-                                    <Label text="🌍"/>
-                                </StackPane>
+                                <StackPane styleClass="iconCircle"><Label text="🌍"/></StackPane>
                             </StackPane>
                             <Label text="Geography" styleClass="category-label"/>
                         </VBox>
@@ -75,41 +63,7 @@
             <!-- RIGHT: History panel -->
             <VBox styleClass="panel" spacing="14" alignment="TOP_LEFT" prefWidth="420">
                 <Label text="RECENT GAME HISTORY" styleClass="panel-title"/>
-                <VBox spacing="10">
-                    <!-- 4 placeholder rows; replace with real data later -->
-                    <HBox spacing="8" styleClass="historyRow">
-                        <Label text="A" styleClass="badge"/>
-                        <Label text="Opponent Name"/>
-                        <Pane HBox.hgrow="ALWAYS"/>
-                        <Label text="2025-10-20"/>
-                        <Label text="W" styleClass="resultWin"/>
-                    </HBox>
-
-                    <HBox spacing="8" styleClass="historyRow">
-                        <Label text="A" styleClass="badge"/>
-                        <Label text="Opponent Name"/>
-                        <Pane HBox.hgrow="ALWAYS"/>
-                        <Label text="2025-10-18"/>
-                        <Label text="L" styleClass="resultLoss"/>
-                    </HBox>
-
-                    <HBox spacing="8" styleClass="historyRow">
-                        <Label text="A" styleClass="badge"/>
-                        <Label text="Opponent Name"/>
-                        <Pane HBox.hgrow="ALWAYS"/>
-                        <Label text="2025-10-16"/>
-                        <Label text="W" styleClass="resultWin"/>
-                    </HBox>
-
-                    <HBox spacing="8" styleClass="historyRow">
-                        <Label text="A" styleClass="badge"/>
-                        <Label text="Opponent Name"/>
-                        <Pane HBox.hgrow="ALWAYS"/>
-                        <Label text="2025-10-12"/>
-                        <Label text="L" styleClass="resultLoss"/>
-                    </HBox>
-                </VBox>
-
+                <VBox fx:id="historyBox" spacing="10"/>
                 <Pane minHeight="8"/>
                 <Button text="MORE INSIGHTS" onAction="#onMoreInsights" styleClass="primaryBtn" maxWidth="Infinity"/>
             </VBox>

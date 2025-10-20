@@ -21,8 +21,22 @@ public class Db {
               difficulty INTEGER NOT NULL DEFAULT 1
             );
         """;
+
+        String createResults = """
+            CREATE TABLE IF NOT EXISTS results (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              category TEXT NOT NULL,
+              difficulty INTEGER NOT NULL,
+              score INTEGER NOT NULL,
+              total INTEGER NOT NULL,
+              seconds_per_question INTEGER NOT NULL,
+              created_at TEXT NOT NULL DEFAULT (datetime('now'))
+            );
+        """;
+
         try (Connection c = connect(); Statement st = c.createStatement()) {
             st.execute(createQuestions);
+            st.execute(createResults);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to init DB", e);
         }
