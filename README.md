@@ -109,9 +109,6 @@ BrainBrawl/
 ├── pom.xml                 # Maven configuration and dependencies
 └── .gitignore
 
-markdown
-Copy code
-
 ---
 
 ## Database
