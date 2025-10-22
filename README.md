@@ -1,36 +1,37 @@
-BrainBrawl — Self-Revision Quiz Application
-Overview
+# BrainBrawl — Interactive Quiz Application
 
-BrainBrawl is a JavaFX-based self-revision quiz application developed as part of a university software engineering project.
-The goal of the project was to create an educational app that allows users to test their knowledge across multiple categories, track scores, and improve through repeated quizzes.
+BrainBrawl is a JavaFX-based quiz application designed to test users’ knowledge across multiple categories such as General Knowledge and Geography. It provides a clean, responsive interface for users to sign up, log in securely, and attempt quizzes. User progress and scores are stored in a local SQLite database.
 
-The project demonstrates:
+---
 
-Application of object-oriented design and software architecture principles
+## Features
 
-Use of JavaFX for GUI design
+- **User Authentication**
+  - Secure sign-up and login
+  - Passwords hashed using **SHA-256 + salt**
+  - Data stored safely in a local SQLite database
+- **Quiz System**
+  - Multiple categories (General, Geography, etc.)
+  - Multiple-choice questions (MCQs)
+  - Dynamic quiz window that tracks progress and score
+- **Admin / Question Management**
+  - Add, edit, or delete questions in the “Manage Questions” panel
+- **Persistent Data Storage**
+  - SQLite used for all data persistence
+  - Tables for `users` and `questions`
+- **JavaFX GUI**
+  - Designed using FXML layout files and controllers
+  - Modern, intuitive user interface
+- **Testing**
+  - JUnit 5 tests for logic and data layers
+  - Mockito used to mock database access (isolating tests from DB)
+- **Automation**
+  - GitHub Actions CI pipeline runs build + tests automatically
+  - Maven build system for dependency management and automation
 
-Integration of a SQLite database for persistent user and quiz data
+---
 
-Implementation of test-driven development (TDD)
-
-Collaboration using Agile methodology, GitHub, and Trello
-
-Tech Stack
-Layer	Technology
-Language	Java (Amazon Corretto 21)
-Framework	JavaFX
-Database	SQLite (JDBC)
-Build Tool	Maven
-Version Control	Git + GitHub
-IDE	IntelliJ IDEA
-Project Management	Trello
-CI/CD	GitHub Actions
-
-Architecture and Project Structure
-
-BrainBrawl follows a modular MVC-inspired architecture, which separates data, logic, and presentation layers.
-This makes the system easier to test, extend, and maintain.
+## Architecture Overview
 
 BrainBrawl/
 │
@@ -108,84 +109,141 @@ BrainBrawl/
 ├── pom.xml                 # Maven configuration and dependencies
 └── .gitignore
 
-Key Features
+markdown
+Copy code
 
-User Authentication: Secure login and registration using SHA-256 password hashing with salt.
+---
 
-Quiz Management: Multiple categories, question types, and difficulty levels.
+## Database
 
-Data Persistence: All data (users, questions, scores) stored in SQLite.
+- Database file: `brainbrawl.db` (auto-created on first run)
+- Technology: **SQLite**
+- Managed through `Db.java`
+- Two main tables:
+  - `users`: stores username, hashed password, and scores
+  - `questions`: stores question text, category, type, options, and correct answer
+- To view or edit the database:
+  - Open `brainbrawl.db` in **DB Browser for SQLite**
 
-Modular Architecture: DAO, service, and UI layers separated for clarity and scalability.
+---
 
-Unit Testing: Implemented with JUnit 5 and Mockito for isolated testing.
+## Key Technical Details
 
-Continuous Integration: Automated builds and tests using GitHub Actions.
+| Component | Description |
+|------------|--------------|
+| **Database Setup** | SQLite database initialized via `Db.java` |
+| **Password Hashing** | SHA-256 with unique salt applied during registration |
+| **FXML Files** | Define UI layouts for login, quiz, results, etc. |
+| **Controllers** | Handle user input and link GUI → logic (e.g., `LoginController.java`) |
+| **Mockito Testing** | Simulates DB responses to test logic independently |
+| **CI/CD** | GitHub Actions automates build & test for every push |
+| **Build System** | Maven (`pom.xml`) manages dependencies and runs JUnit tests |
 
-Agile Workflow: Managed tasks and sprints via Trello and GitHub Projects.
+---
 
-Testing
+## How to Run the Application
 
-Testing was implemented using JUnit 5 and Mockito to validate the core business logic and database interactions.
+### Requirements
+- Java 21+ (Amazon Corretto or OpenJDK)
+- JavaFX SDK (included in project setup)
+- Maven 3.9+ (for build and run commands)
 
-Unit tests verify key components such as question addition, authentication, and DAO behavior.
+### Run from IntelliJ IDEA
+1. Open the project in IntelliJ.
+2. Load Maven dependencies (`pom.xml` → right-click → “Reload Project”).
+3. Locate `Main.java`.
+4. Right-click → **Run 'Main'**.
 
-Mockito was used to mock the database, ensuring tests run independently of the actual SQLite file.
+### Run from Command Line
+- ```bash
+  mvn clean install
+  mvn javafx:run
 
-Example: QuestionServiceTest.java validates input handling and DAO integration using mock(), verify(), and when().
+### Run Tests
+- ```bash
+  mvn test
 
-Build and Run Instructions
-Prerequisites
+---
 
-Java 21 (Amazon Corretto or OpenJDK)
+## Build & Deployment
 
-Maven 3.9+
+Maven compiles and packages the app into a .jar file:
+- ```bash
+  mvn clean package
 
-IntelliJ IDEA (recommended)
+Output JAR file is located in /target.
 
-Build and Run
-# Clone repository
-git clone https://github.com/YourTeam/BrainBrawl.git
+GitHub Actions automatically:
+- Builds the project
+- Runs unit tests
 
-# Navigate into project directory
-cd BrainBrawl
+---
 
-# Build project
-mvn clean install
+## Testing Overview
 
-# Run JavaFX app
-mvn javafx:run
+Testing framework: JUnit 5
+Mocking library: Mockito
 
-Javadoc
+Test Type	Purpose
+Unit Tests	Validate logic of DAOs, Services, and Controllers
+Mock Tests	Replace actual DB connections with simulated responses
 
-All major classes and methods include Javadoc comments for clarity and maintainability.
-You can generate documentation using:
+Common Mockito methods:
 
-mvn javadoc:javadoc
+- mock() — creates a fake object for testing
 
+- when(...).thenReturn(...) — defines behavior of mock objects
 
-This will generate HTML files under target/site/apidocs/.
+- verify() — confirms interactions occurred as expected
 
-Team Members and Contributions
+---
+
+## User Interface Overview
+
+FXML Files: 
+- Defines the structure of each scene (e.g., Login & Quiz)
+
+Controllers: 
+- Connects logic to FXML
+
+Styling: 
+- Defined in login.css & home.css
+
+Example FXML screens:
+
+- GeoQuiz.fxml
+
+- GKQuiz.fxml
+
+- HomePage.fxml
+
+---
+
+## Example User Flow
+
+1. Sign Up → enter username & password → password hashed and stored in DB.
+
+2. Log In → credentials validated → user directed to Home screen.
+
+3. Select Category → loads relevant quiz questions from DB.
+
+4. Play Quiz → answers recorded → score calculated.
+
+5. View Results → shows total score → “Back” button returns to main menu.
+
+6. Admin Access → open Manage Questions → add/edit/delete questions.
+
+---
+
+## Team Members and Contributions
 Name	Contribution
-Aaqil Mohammed	Created test cases for login and quiz functions. Helped debug errors and confirm feature functionality. Managed Trello tasks and contributed to final slides and report.
-Anish Madhusudhan	Set up the SQLite database and created tables for users and questions. Implemented database connectivity and user data handling. Ensured data persistence and integrity.
-Kai Langley	Designed main quiz and results screens in JavaFX. Handled button clicks, timer animations, and UI styling. Fixed layout bugs and tested transitions between screens.
-Prabhanjan Muthukannan	Built login and registration system using secure password hashing. Linked FXML screens with the database and tested user authentication flow.
-Shehroz Khan	Developed the quiz lobby system. Implemented question timers, score updates, and round logic to manage quiz progression.
-
-Walkthrough Video (to include)
-
-Project overview and goals
-
-User story prioritization and key features
-
-Demonstration of the JavaFX interface
-
-Explanation of database persistence
-
-Code walkthrough (DAO + Service + Controller)
-
-Evidence of testing and CI
-
-Application demo (login, quiz, results)
+- Aaqil Mohammed:
+  - Created test cases for login and quiz functions. Helped debug errors and confirm feature functionality. Managed Trello tasks and contributed to final slides and report.
+- Anish Madhusudhan:
+  - Set up the SQLite database and created tables for users and questions. Implemented database connectivity and user data handling. Ensured data persistence and integrity.
+- Kai Langley:
+  - Designed main quiz and results screens in JavaFX. Handled button clicks, timer animations, and UI styling. Fixed layout bugs and tested transitions between screens.
+- Prabhanjan Muthukannan:
+  - Built login and registration system using secure password hashing. Linked FXML screens with the database and tested user authentication flow.
+- Shehroz Khan:
+  - Developed the quiz lobby system. Implemented question timers, score updates, and round logic to manage quiz progression.
