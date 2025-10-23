@@ -25,13 +25,33 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * UI application for managing questions in the BrainBrawl database.
+ * <p>
+ * Allows viewing, adding, updating, and deleting questions. Supports both MCQ and short-answer types.
+ * Uses direct JDBC for database operations and a TableView for displaying existing questions.
+ * </p>
+ * <p>
+ * Launched only from within the main BrainBrawl application (Login → Home → Manage Questions).
+ * </p>
+ *
+ */
 public class ManageQuestionsApp extends Application {
 
-    // UI
+    /** TableView displaying all questions. */
     private final TableView<Question> table = new TableView<>();
 
+    /**
+     * Entry point for the JavaFX application.
+     * <p>
+     * Sets up the UI (table, form, actions), binds form fields to table selection, and attaches event handlers.
+     * </p>
+     *
+     * @param stage the primary stage
+     */
     @Override
     public void start(Stage stage) {
+
         // ===== Table =====
         TableColumn<Question, Number> cId = new TableColumn<>("ID");
         cId.setCellValueFactory(q -> new SimpleLongProperty(q.getValue().getId() == null ? -1 : q.getValue().getId()));
@@ -182,10 +202,12 @@ public class ManageQuestionsApp extends Application {
 
     // ====================== DB LAYER (direct JDBC) ======================
 
+    /** Refreshes the TableView with the latest questions from the database. */
     private void refreshTable() {
         table.setItems(FXCollections.observableArrayList(listAllQuestions()));
     }
 
+    /** Retrieves all questions from the database. */
     private List<Question> listAllQuestions() {
         String sql = "SELECT id, category, text, type, options_text, correct_index, difficulty FROM questions ORDER BY id";
         List<Question> out = new ArrayList<>();
@@ -200,6 +222,7 @@ public class ManageQuestionsApp extends Application {
         return out;
     }
 
+    /** Inserts a new question into the database. */
     private void insertQuestion(Question q) {
         String sql = """
             INSERT INTO questions(category, text, type, options_text, correct_index, difficulty)
@@ -213,6 +236,7 @@ public class ManageQuestionsApp extends Application {
         }
     }
 
+    /** Updates an existing question in the database. */
     private void updateQuestion(Question q) {
         if (q.getId() == null) { error("Update failed: missing ID"); return; }
         String sql = """
@@ -229,6 +253,7 @@ public class ManageQuestionsApp extends Application {
         }
     }
 
+    /** Deletes a question from the database by ID. */
     private void deleteQuestion(long id) {
         String sql = "DELETE FROM questions WHERE id=?";
         try (Connection c = Db.connect(); PreparedStatement ps = c.prepareStatement(sql)) {
@@ -240,6 +265,8 @@ public class ManageQuestionsApp extends Application {
     }
 
     // ----- helpers for DB mapping -----
+
+    /** Maps a ResultSet row to a Question object. */
     private Question mapRow(ResultSet rs) throws SQLException {
         long id = rs.getLong("id");
         String category = rs.getString("category");
@@ -260,6 +287,7 @@ public class ManageQuestionsApp extends Application {
         return q;
     }
 
+    /** Binds a Question object's fields to a PreparedStatement for DB operations. */
     private void bindQuestion(PreparedStatement ps, Question q) throws SQLException {
         ps.setString(1, q.getCategory());
         ps.setString(2, q.getText());
@@ -276,6 +304,7 @@ public class ManageQuestionsApp extends Application {
 
     // ====================== UI helpers ======================
 
+    /** Clears all form inputs and resets defaults. */
     void clearForm(TextField tfCategory,
                    TextArea taText,
                    TextArea taOptions,
@@ -290,6 +319,7 @@ public class ManageQuestionsApp extends Application {
         spDiff.getValueFactory().setValue(1);
     }
 
+    /** Builds a Question object form inputs, validates entries, returns Optional. */
     private Optional<Question> buildFromForm(Long id,
                                              TextField tfCategory,
                                              TextArea taText,
@@ -332,12 +362,13 @@ public class ManageQuestionsApp extends Application {
                 .showAndWait().filter(btn -> btn == ButtonType.OK).isPresent();
     }
 
-    // Fallback option join/split if your model lacks helpers (use same delimiter you stored in DB)
+    /** Joins MCQ options into a single string for DB storage. */
     private static String joinOptions(List<String> opts) {
         if (opts == null || opts.isEmpty()) return null;
         return String.join("|", opts);
     }
 
+    /** Splits stored options string into a List. */
     private static List<String> splitOptions(String s) {
         if (s == null || s.isEmpty()) return new ArrayList<>();
         return Arrays.asList(s.split("\\|",-1));

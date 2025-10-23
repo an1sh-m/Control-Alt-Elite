@@ -10,6 +10,10 @@ import java.sql.*;
 import java.util.Base64;
 import java.util.Optional;
 
+/**
+ * JDBC implementation of the UserDao interface.
+ * Manages user creation, authentication, and password security using SHA-256 hashing and random salts.
+ */
 public class UserDaoJdbc implements UserDao {
 
     private static final SecureRandom RNG = new SecureRandom();
@@ -18,6 +22,9 @@ public class UserDaoJdbc implements UserDao {
         createUsersTableIfNeeded();
     }
 
+    /**
+     * Ensures the users table exists; creates it if missing.
+     */
     private void createUsersTableIfNeeded() {
         String sql = """
             CREATE TABLE IF NOT EXISTS users(
@@ -34,12 +41,24 @@ public class UserDaoJdbc implements UserDao {
         }
     }
 
+    /**
+     * Generates a random cryptographic salt for password hashing.
+     *
+     * @return The Base64-encoded salt string.
+     */
     private static String generateSalt() {
         byte[] salt = new byte[16];
         RNG.nextBytes(salt);
         return Base64.getEncoder().encodeToString(salt);
     }
 
+    /**
+     * Hashes a plain-text password using SHA-256 with a salt.
+     *
+     * @param plain The plain-text password.
+     * @param base64Salt The Base64-encoded salt to use.
+     * @return The Base64-encoded password hash.
+     */
     private static String hash(String plain, String base64Salt) {
         try {
             byte[] salt = Base64.getDecoder().decode(base64Salt);
@@ -52,10 +71,21 @@ public class UserDaoJdbc implements UserDao {
         }
     }
 
+    /**
+     * Verifies whether a plain-text password matches a stored hash.
+     *
+     * @param plain The input password.
+     * @param base64Salt The salt used for hashing.
+     * @param expectedHash The stored password hash.
+     * @return True if the password matches, false otherwise.
+     */
     private static boolean verify(String plain, String base64Salt, String expectedHash) {
         return hash(plain, base64Salt).equals(expectedHash);
     }
 
+    /**
+     * Authenticates a user by checking username and password hash.
+     */
     @Override
     public Optional<User> authenticate(String username, String plainPassword) {
         String q = "SELECT id, password_hash, salt FROM users WHERE username = ?";
@@ -76,6 +106,9 @@ public class UserDaoJdbc implements UserDao {
         }
     }
 
+    /**
+     * Creates a new user with a hashed password and random salt.
+     */
     @Override
     public boolean createUser(String username, String plainPassword) {
         String salt = generateSalt();
@@ -92,6 +125,9 @@ public class UserDaoJdbc implements UserDao {
         }
     }
 
+    /**
+     * Finds a user by username.
+     */
     @Override
     public Optional<User> findByUsername(String username) {
         String q = "SELECT id FROM users WHERE username = ?";
@@ -106,7 +142,9 @@ public class UserDaoJdbc implements UserDao {
         }
     }
 
-    // Optional: seed an admin user on first run
+    /**
+     * Seeds a default admin user on first run if missing.
+     */
     public void seedAdminIfMissing() {
         if (findByUsername("admin").isEmpty()) createUser("admin", "admin123");
     }

@@ -21,9 +21,30 @@ import javafx.scene.Parent;
 import java.net.URL;
 import java.util.Optional;
 
+/**
+ * Main login application for BrainBrawl.
+ * <p>
+ * Displays a login form with username/password input, optional "show password" feature,
+ * and buttons for login and registration. Handles authentication and opening the Home page
+ * upon successful login.
+ * </p>
+ * <p>
+ * Seeds an admin account if missing during initialization.
+ * </p>
+ *
+ */
 public class LoginApp extends Application {
+    /** DAO for user-related database operations. */
     private final UserDaoJdbc userDao = new UserDaoJdbc();
 
+    /**
+     * Entry point for the JavaFX application.
+     * <p>
+     * Initializes the database, sets up the login form UI, and handles login and registration actions.
+     * </p>
+     *
+     * @param stage the primary stage for this application
+     */
     @Override
     public void start(Stage stage) {
         Db.init();
@@ -124,7 +145,12 @@ public class LoginApp extends Application {
         stage.show();
     }
 
-    /** Load the Home page into the SAME stage. */
+
+    /**
+     * Opens the Home page in the same stage after successful login.
+     *
+     * @param stage the current stage
+     */
     private void openHome(Stage stage) {
         try {
             // NOTE: HomePage.fxml is under /BrainBrawl/ (no "ui" folder)
@@ -142,12 +168,25 @@ public class LoginApp extends Application {
         }
     }
 
+    /**
+     * Adds a CSS stylesheet to the provided scene.
+     *
+     * @param scene the scene to style
+     * @param path path to the CSS file relative to the classpath
+     */
     private static void addCss(Scene scene, String path) {
         URL url = LoginApp.class.getResource(path);
         if (url != null) scene.getStylesheets().add(url.toExternalForm());
         else System.err.println("WARN: CSS not found: " + path);
     }
 
+    /**
+     * Loads an ImageView for the given image path and sets its height.
+     *
+     * @param path path to the image resource
+     * @param height desired image height
+     * @return an ImageView, or null if the resource is missing
+     */
     private static ImageView loadLogo(String path, double height) {
         URL url = LoginApp.class.getResource(path);
         if (url == null) return null;

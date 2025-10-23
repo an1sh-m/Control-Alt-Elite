@@ -9,9 +9,28 @@ import java.sql.Statement;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the {@link QuestionDaoJdbc} class.
+ * <p>
+ * This test suite verifies the correct behavior of CRUD operations
+ * for the questions table using an in-memory SQLite database.
+ * The {@link DbTestUtil} utility is used to override the default
+ * database connection during testing.
+ */
 public class QuestionDaoJdbcTest {
+
+    /** Data access object under test. */
     private QuestionDao dao;
 
+    /**
+     * Sets up a fresh in-memory SQLite database before each test.
+     * <p>
+     * The schema for the {@code questions} table is created, and
+     * {@link DbTestUtil#overrideConnection(Connection)} is used to
+     * ensure all DAO operations use this temporary test database.
+     *
+     * @throws Exception if a database setup error occurs
+     */
     @BeforeEach
     void setupDb() throws Exception {
         // Override Db.connect() with in-memory DB
@@ -33,7 +52,15 @@ public class QuestionDaoJdbcTest {
         dao = new QuestionDaoJdbc();
     }
 
-    // create and findById
+    /**
+     * Tests that a question can be successfully created and retrieved by ID.
+     * <p>
+     * Verifies that:
+     * <ul>
+     *   <li>The {@link QuestionDaoJdbc#create(Question)} method inserts correctly.</li>
+     *   <li>The retrieved question matches the original values.</li>
+     * </ul>
+     */
     @Test
     void createAndFindByIdShouldWork() {
         Question q = Question.mcq("Maths", "2+2?", List.of("3", "4"), 1, 1);
@@ -44,7 +71,15 @@ public class QuestionDaoJdbcTest {
         assertEquals(2, found.getOptions().size());
     }
 
-    // update should change row
+    /**
+     * Tests that an existing question can be updated correctly in the database.
+     * <p>
+     * Ensures that:
+     * <ul>
+     *   <li>The {@link QuestionDaoJdbc#update(Question)} method modifies the correct row.</li>
+     *   <li>Updated fields (such as text) persist correctly.</li>
+     * </ul>
+     */
     @Test
     void updateShouldModifyExistingRow() {
         Question q = Question.mcq("Geo", "Capital of France?", List.of("Paris", "Rome"), 0, 2);

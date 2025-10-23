@@ -15,11 +15,29 @@ import javafx.scene.layout.*;
 
 import java.util.List;
 
+/**
+ * Controller for the BrainBrawl home screen.
+ * <p>
+ * Handles navigation to different quizzes (Maths, General Knowledge, Geography),
+ * manages recent game history display, and handles difficulty selection dialogs.
+ * </p>
+ * <p>
+ * Uses {@link AppServices} to fetch recent game results.
+ * </p>
+ *
+ */
+
 public class HomeController {
 
     @FXML private VBox historyBox;
 
     // ---- Navigation handlers ----
+
+    /**
+     * Starts a Maths quiz after prompting the user to select difficulty.
+     *
+     * @param e the mouse event triggered by clicking the Maths quiz box
+     */
     @FXML
     private void onMaths(MouseEvent e) {
         Integer level = pickMathsDifficulty();
@@ -33,6 +51,11 @@ public class HomeController {
         } catch (Exception ex) { ex.printStackTrace(); }
     }
 
+    /**
+     * Starts a General Knowledge quiz after prompting the user to select difficulty.
+     *
+     * @param e the mouse event triggered by clicking the General Knowledge quiz box
+     */
     @FXML
     private void onGeneral(MouseEvent e) {
         Integer level = pickGKDifficulty();
@@ -46,6 +69,11 @@ public class HomeController {
         } catch (Exception ex) { ex.printStackTrace(); }
     }
 
+    /**
+     * Starts a Geography quiz after prompting the user to select difficulty.
+     *
+     * @param e the mouse event triggered by clicking the Geography quiz box
+     */
     @FXML
     private void onGeography(MouseEvent e) {
         Integer level = pickGeoDifficulty();
@@ -59,9 +87,20 @@ public class HomeController {
         } catch (Exception ex) { ex.printStackTrace(); }
     }
 
+    /**
+     * Placeholder handler for "More Insights" action.
+     *
+     * @param e the action event triggered by clicking the Insights button
+     */
     @FXML private void onMoreInsights(ActionEvent e) { System.out.println("Go -> Insights / Stats"); }
 
     // ---- Difficulty pickers (same as before) ----
+
+    /**
+     * Prompts the user to pick a Maths quiz difficulty level.
+     *
+     * @return selected difficulty level (1–4), or null if cancelled
+     */
     private Integer pickMathsDifficulty() {
         return pickLevelDialog("Select Difficulty","Choose Maths difficulty",
                 "1 — Year 12 Maths","2 — 1st-year Engineering","3 — 2nd-year Engineering","4 — Final-year Engineering",
@@ -73,6 +112,12 @@ public class HomeController {
                 4) Solve linear equations: a*x + b = c
                 """);
     }
+
+    /**
+     * Prompts the user to pick a General Knowledge quiz difficulty level.
+     *
+     * @return selected difficulty level (1–4), or null if cancelled
+     */
     private Integer pickGKDifficulty() {
         return pickLevelDialog("Select Difficulty","Choose General Knowledge difficulty",
                 "1 — Easy","2 — Medium","3 — Hard","4 — Expert",
@@ -84,6 +129,12 @@ public class HomeController {
                 4) Expert-level, trickier topics
                 """);
     }
+
+    /**
+     * Prompts the user to pick a Geography quiz difficulty level.
+     *
+     * @return selected difficulty level (1–4), or null if cancelled
+     */
     private Integer pickGeoDifficulty() {
         return pickLevelDialog("Select Difficulty","Choose Geography difficulty",
                 "1 — Easy (capitals, continents)","2 — Medium (countries, rivers, flags)",
@@ -97,6 +148,18 @@ public class HomeController {
                 """);
     }
 
+    /**
+     * Shows a dialog with four difficulty options and help text.
+     *
+     * @param title the dialog title
+     * @param header the dialog header text
+     * @param r1t text for radio button 1
+     * @param r2t text for radio button 2
+     * @param r3t text for radio button 3
+     * @param r4t text for radio button 4
+     * @param helpText explanatory help text shown below the options
+     * @return selected difficulty (1–4), or null if cancelled
+     */
     private Integer pickLevelDialog(String title, String header, String r1t, String r2t, String r3t, String r4t, String helpText) {
         Dialog<Integer> dlg = new Dialog<>();
         dlg.setTitle(title);
@@ -132,11 +195,18 @@ public class HomeController {
     }
 
     // ---- History rendering ----
+
+    /**
+     * Initializes the controller and refreshes the recent game history.
+     */
     @FXML
     private void initialize() {
         refreshHistory();
     }
 
+    /**
+     * Refreshes the VBox showing recent game results.
+     */
     private void refreshHistory() {
         historyBox.getChildren().clear();
         List<GameResult> recents = AppServices.results().recent(10);
@@ -153,6 +223,12 @@ public class HomeController {
         }
     }
 
+    /**
+     * Builds a single row for the recent history list.
+     *
+     * @param r a {@link GameResult} object containing quiz result data
+     * @return a HBox representing one row in the history panel
+     */
     private HBox makeHistoryRow(GameResult r) {
         // Badge = first letter of category
         Label badge = new Label(r.getCategory().isEmpty() ? "?" : r.getCategory().substring(0,1).toUpperCase());
@@ -173,6 +249,12 @@ public class HomeController {
         return row;
     }
 
+    /**
+     * Safely extracts the date (YYYY-MM-DD) from a timestamp string.
+     *
+     * @param createdAt timestamp string
+     * @return formatted date or empty string if input is null/invalid
+     */
     private static String safeDate(String createdAt) {
         if (createdAt == null || createdAt.isBlank()) return "";
         // keep "YYYY-MM-DD" only

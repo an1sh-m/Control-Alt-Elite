@@ -18,7 +18,22 @@ import java.util.*;
 
 import brainbrawl.model.GameResult;
 import brainbrawl.service.AppServices;
-
+/**
+ * Controller class for the Geography multiple-choice quiz in BrainBrawl.
+ * <p>
+ * Handles question loading, timer countdown, answer checking, feedback display,
+ * score tracking, and navigation back to the home screen.
+ * </p>
+ *
+ * <p>Key features include:</p>
+ * <ul>
+ *     <li>Loading and shuffling geography question banks by difficulty.</li>
+ *     <li>Displaying questions and answer options dynamically.</li>
+ *     <li>Managing a countdown timer per question.</li>
+ *     <li>Calculating and saving quiz results at the end.</li>
+ * </ul>
+ *
+ */
 public class GeoMCQController {
 
     @FXML private Label titleLabel;       // "Geography — Level X"
@@ -44,16 +59,19 @@ public class GeoMCQController {
     private ToggleGroup group;
     private int level = 1;
 
-    // save meta
     private final String category = "Geography";
     private boolean saved = false;
 
-    // Timer
     private Timeline countdown;
     private int remaining;
     private int QUESTION_SECONDS = 30;
 
-    /** Called by HomeController. */
+    /**
+     * Starts the Geography quiz for the given question count and difficulty level.
+     *
+     * @param count  number of questions to include in the quiz
+     * @param level  difficulty level (1–4)
+     */
     public void startGeographyQuiz(int count, int level) {
         this.level = Math.max(1, Math.min(4, level));
         titleLabel.setText("Geography — Level " + this.level);
@@ -72,6 +90,12 @@ public class GeoMCQController {
         showCurrent();
     }
 
+    /**
+     * Builds the quiz by shuffling a question bank for the selected difficulty.
+     *
+     * @param n      number of questions to include
+     * @param level  difficulty level (1–4)
+     */
     private void buildQuizFromBank(int n, int level) {
         // FIX: make a mutable copy before shuffling (banks may be List.of(...))
         List<Q> bank = new ArrayList<>(geoBank(level));
@@ -80,6 +104,9 @@ public class GeoMCQController {
         quiz.addAll(bank.subList(0, Math.min(n, bank.size())));
     }
 
+    /**
+     * Displays the current question and updates the UI components.
+     */
     private void showCurrent() {
         stopTimer();
 
@@ -106,6 +133,11 @@ public class GeoMCQController {
         startTimer();
     }
 
+    /**
+     * Renders multiple-choice options for the given question.
+     *
+     * @param q the current question
+     */
     private void renderOptions(Q q) {
         optionsBox.getChildren().clear();
         group = new ToggleGroup();
@@ -119,6 +151,11 @@ public class GeoMCQController {
         }
     }
 
+    /**
+     * Handles button click for Submit / Next / Finish.
+     *
+     * @param e the ActionEvent triggered by the button
+     */
     @FXML
     private void onPrimary(ActionEvent e) {
         if (idx >= quiz.size()) { handleBackToHome(e); return; }
@@ -130,6 +167,11 @@ public class GeoMCQController {
         }
     }
 
+    /**
+     * Evaluates the selected answer or handles timeout.
+     *
+     * @param dueToTimeout whether the evaluation is triggered by the timer
+     */
     private void evaluateNow(boolean dueToTimeout) {
         stopTimer();
 
@@ -154,6 +196,9 @@ public class GeoMCQController {
     }
 
     // ------------------- timer -------------------
+    /**
+     * Starts the countdown timer for the current question.
+     */
     private void startTimer() {
         remaining = QUESTION_SECONDS;
         timerLabel.setText(fmt(remaining));
@@ -169,6 +214,9 @@ public class GeoMCQController {
         countdown.playFromStart();
     }
 
+    /**
+     * Stops the current countdown timer.
+     */
     private void stopTimer() {
         if (countdown != null) {
             countdown.stop();
@@ -176,6 +224,9 @@ public class GeoMCQController {
         }
     }
 
+    /**
+     * Automatically advances to the next question after a short delay.
+     */
     private void autoAdvanceSoon() {
         Timeline t = new Timeline(new KeyFrame(Duration.seconds(1.2), ev -> {
             idx++;
@@ -191,6 +242,9 @@ public class GeoMCQController {
         return String.format("%02d:%02d", m, ss);
     }
 
+    /**
+     * Saves the result of the current quiz session only once.
+     */
     private void saveOnce() {
         if (saved) return;
         saved = true;
@@ -201,6 +255,11 @@ public class GeoMCQController {
         }
     }
 
+    /**
+     * Navigates back to the home page.
+     *
+     * @param event the action event triggered by clicking the back button
+     */
     @FXML
     public void handleBackToHome(ActionEvent event) {
         stopTimer();

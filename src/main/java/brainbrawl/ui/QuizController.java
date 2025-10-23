@@ -19,6 +19,13 @@ import java.util.Random;
 import brainbrawl.model.GameResult;
 import brainbrawl.service.AppServices;
 
+/**
+ * Controller for the Math Quiz screen.
+ * <p>
+ * Handles quiz generation, display, user input, timer, scoring, and saving results.
+ * Supports multiple difficulty levels with increasing complexity.
+ * </p>
+ */
 public class QuizController {
 
     @FXML private Label titleLabel;
@@ -30,6 +37,7 @@ public class QuizController {
     @FXML private Button backBtn;
     @FXML private Label feedbackLabel;
 
+    /** Simple inner class to store a math question and its answer. */
     private static class Q { final String text; final int answer; Q(String t,int a){text=t;answer=a;} }
 
     private final List<Q> quiz = new ArrayList<>();
@@ -44,6 +52,11 @@ public class QuizController {
     private final String category = "Maths";
     private boolean saved = false;
 
+    /**
+     * Initializes and starts a Math Quiz.
+     * @param count number of questions
+     * @param difficultyLevel 1–4
+     */
     public void startMathQuiz(int count, int difficultyLevel) {
         this.level = Math.max(1, Math.min(4, difficultyLevel));
         titleLabel.setText("Maths Quiz — Level " + this.level);
@@ -53,6 +66,15 @@ public class QuizController {
         showCurrent();
     }
 
+    /**
+     * Generates random math questions based on difficulty level.
+     * <p>
+     * Level 1: simple +, -, ×
+     * Level 2: mixed, includes division
+     * Level 3: two-step expressions
+     * Level 4: simple linear equations
+     * </p>
+     */
     private void generateMathQuestions(int n, int level) {
         quiz.clear(); Random r = new Random();
         switch (level) {
@@ -96,6 +118,9 @@ public class QuizController {
         }
     }
 
+    /**
+     * Displays the current question or the final score if all done.
+     */
     private void showCurrent() {
         stopTimer();
         if (idx >= quiz.size()) {
@@ -118,11 +143,18 @@ public class QuizController {
         startTimer();
     }
 
+    /**
+     * Handles the primary button click: Submit / Next / Finish.
+     */
     @FXML private void onPrimary(ActionEvent e) {
         if (idx >= quiz.size()) { handleBackToHome(e); return; }
         if (!awaitingNext) { evaluateNow(false); } else { idx++; showCurrent(); }
     }
 
+    /**
+     * Evaluates the current answer, updates score, and provides feedback.
+     * @param timeout true if time ran out
+     */
     private void evaluateNow(boolean timeout) {
         stopTimer();
         int correct = quiz.get(idx).answer;
@@ -136,6 +168,7 @@ public class QuizController {
         if (timeout) autoAdvanceSoon();
     }
 
+    /** Starts the countdown timer for the current question. */
     private void startTimer() {
         remaining = QUESTION_SECONDS;
         timerLabel.setText(fmt(remaining));
@@ -146,10 +179,19 @@ public class QuizController {
         countdown.setCycleCount(QUESTION_SECONDS);
         countdown.playFromStart();
     }
+
+    /** Stops the current countdown timer. */
     private void stopTimer(){ if(countdown!=null){ countdown.stop(); countdown=null; } }
+
+    /** Advances to next question shortly after a timeout. */
     private void autoAdvanceSoon(){ new Timeline(new KeyFrame(Duration.seconds(1.2), ev -> { idx++; showCurrent(); })).play(); }
+
+    /** Formats seconds as MM:SS string. */
     private static String fmt(int s){ int m=s/60, ss=s%60; return String.format("%02d:%02d", m, ss); }
 
+    /**
+     * Saves the game result once to the database.
+     */
     private void saveOnce() {
         if (saved) return;
         saved = true;
@@ -161,6 +203,9 @@ public class QuizController {
         }
     }
 
+    /**
+     * Navigates back to the home page.
+     */
     @FXML public void handleBackToHome(ActionEvent event) {
         stopTimer();
         try {

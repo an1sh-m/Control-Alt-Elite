@@ -10,9 +10,24 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.regex.Pattern;
 
+/**
+ * A modal dialog for user registration.
+ * <p>
+ * Provides input fields for username, password, and password confirmation.
+ * Validates user input and interacts with {@link UserDaoJdbc} to create new accounts.
+ * Returns {@code true} if registration succeeds, {@code false} otherwise.
+ * </p>
+ */
 public class RegisterDialog extends Dialog<Boolean> {
+
+    /** Regex pattern to validate acceptable usernames (3–32 characters, letters, digits, . _ -). */
     private static final Pattern USERNAME_OK = Pattern.compile("^[a-zA-Z0-9._-]{3,32}$");
 
+    /**
+     * Constructs a registration dialog.
+     *
+     * @param userDao The data access object used to create new users in the database
+     */
     public RegisterDialog(UserDaoJdbc userDao) {
         setTitle("Create Account");
         setHeaderText("Register a new account");

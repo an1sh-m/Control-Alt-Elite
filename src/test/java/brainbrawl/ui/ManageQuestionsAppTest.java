@@ -11,13 +11,38 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the {@link ManageQuestionsApp} class.
+ * <p>
+ * These tests verify that form-related functionality behaves correctly,
+ * ensuring that UI components are properly reset and that question objects
+ * are constructed as expected.
+ */
 public class ManageQuestionsAppTest {
+
+    /**
+     * Initializes the JavaFX runtime before running any tests.
+     * <p>
+     * This is required because JavaFX controls (like {@link TextField} and
+     * {@link ComboBox}) depend on the JavaFX Application Thread, which is
+     * initialized by creating a {@link JFXPanel}.
+     */
     @BeforeAll
     static void initJfxRuntime() {
         new JFXPanel(); // initializes JavaFX
     }
 
-    // clearForm should reset fields
+    /**
+     * Verifies that {@link ManageQuestionsApp#clearForm(TextField, TextArea, TextArea, ComboBox, Spinner, Spinner)}
+     * correctly resets all form fields to their default states.
+     * <p>
+     * Confirms that:
+     * <ul>
+     *   <li>Text fields and text areas are cleared.</li>
+     *   <li>Question type is reset to {@link Question.Type#MCQ}.</li>
+     *   <li>Spinners for correct index and difficulty reset to 0 and 1 respectively.</li>
+     * </ul>
+     */
     @Test
     void clearFormResetsInputs() {
         ManageQuestionsApp app = new ManageQuestionsApp();
@@ -39,7 +64,14 @@ public class ManageQuestionsAppTest {
         assertEquals(1, diff.getValue());
     }
 
-    // creating MCQ question via form values
+    /**
+     * Confirms that a multiple-choice {@link Question} created through
+     * {@link Question#mcq(String, String, List, int, int)} has the correct
+     * category, options, and correct answer index.
+     * <p>
+     * This ensures that the question model is constructed accurately from
+     * the provided form values.
+     */
     @Test
     void mcqQuestionShouldBeConstructedCorrectly() {
         Question q = Question.mcq("Science", "H2O is?", List.of("Water", "Oxygen"), 0, 1);

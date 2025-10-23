@@ -19,6 +19,15 @@ import java.util.*;
 import brainbrawl.model.GameResult;
 import brainbrawl.service.AppServices;
 
+/**
+ * Controller for the Multiple Choice Question (MCQ) Quiz screen.
+ * <p>
+ * Handles quiz generation, display of questions and options, user input,
+ * timer countdown, scoring, and saving results.
+ * Supports four difficulty levels with increasing complexity.
+ * </p>
+ */
+
 public class QuizMCQController {
 
     @FXML private Label titleLabel;       // "General Knowledge — Level X"
@@ -30,6 +39,7 @@ public class QuizMCQController {
     @FXML private Button backBtn;         // Back to Home
     @FXML private Label feedbackLabel;    // Correct!/Wrong...
 
+    /** Inner class representing a single MCQ question. */
     private static class Q {
         final String text;
         final List<String> options;
@@ -53,7 +63,11 @@ public class QuizMCQController {
     private int remaining;
     private int QUESTION_SECONDS = 30;
 
-    /** Called by HomeController. */
+    /**
+     * Called by HomeController to start the MCQ quiz.
+     * @param count number of questions
+     * @param level difficulty level (1–4)
+     */
     public void startGeneralQuiz(int count, int level) {
         this.level = Math.max(1, Math.min(4, level));
         titleLabel.setText("General Knowledge — Level " + this.level);
@@ -72,6 +86,11 @@ public class QuizMCQController {
         showCurrent();
     }
 
+    /**
+     * Builds the quiz list by randomly selecting questions from the question bank.
+     * @param n number of questions
+     * @param level difficulty level
+     */
     private void buildQuizFromBank(int n, int level) {
         // FIX: make a mutable copy before shuffling (banks may be List.of(...))
         List<Q> bank = new ArrayList<>(generalBank(level));
@@ -80,6 +99,9 @@ public class QuizMCQController {
         quiz.addAll(bank.subList(0, Math.min(n, bank.size())));
     }
 
+    /**
+     * Displays the current question or final score if all questions are done.
+     */
     private void showCurrent() {
         stopTimer();
 
@@ -106,6 +128,10 @@ public class QuizMCQController {
         startTimer();
     }
 
+    /**
+     * Renders RadioButtons for the options of a question.
+     * @param q question to render
+     */
     private void renderOptions(Q q) {
         optionsBox.getChildren().clear();
         group = new ToggleGroup();
@@ -119,6 +145,9 @@ public class QuizMCQController {
         }
     }
 
+    /**
+     * Handles the primary button click (Submit / Next / Finish).
+     */
     @FXML
     private void onPrimary(ActionEvent e) {
         if (idx >= quiz.size()) { handleBackToHome(e); return; }
@@ -130,6 +159,10 @@ public class QuizMCQController {
         }
     }
 
+    /**
+     * Evaluates the selected answer and updates score and feedback.
+     * @param dueToTimeout true if evaluation triggered by timer expiration
+     */
     private void evaluateNow(boolean dueToTimeout) {
         stopTimer();
 
@@ -154,6 +187,8 @@ public class QuizMCQController {
     }
 
     // ------------------- timer -------------------
+
+    /** Starts the countdown timer for the current question. */
     private void startTimer() {
         remaining = QUESTION_SECONDS;
         timerLabel.setText(fmt(remaining));
@@ -169,6 +204,7 @@ public class QuizMCQController {
         countdown.playFromStart();
     }
 
+    /** Stops the current countdown timer. */
     private void stopTimer() {
         if (countdown != null) {
             countdown.stop();
@@ -176,6 +212,7 @@ public class QuizMCQController {
         }
     }
 
+    /** Advances to next question shortly after a timeout. */
     private void autoAdvanceSoon() {
         Timeline t = new Timeline(new KeyFrame(Duration.seconds(1.2), ev -> {
             idx++;
@@ -185,12 +222,16 @@ public class QuizMCQController {
         t.play();
     }
 
+    /** Formats seconds into MM:SS string. */
     private static String fmt(int s) {
         if (s < 0) s = 0;
         int m = s / 60, ss = s % 60;
         return String.format("%02d:%02d", m, ss);
     }
 
+    /**
+     * Saves the quiz result to the database once.
+     */
     private void saveOnce() {
         if (saved) return;
         saved = true;
@@ -201,6 +242,9 @@ public class QuizMCQController {
         }
     }
 
+    /**
+     * Handles navigation back to the home page.
+     */
     @FXML
     public void handleBackToHome(ActionEvent event) {
         stopTimer();
@@ -216,6 +260,11 @@ public class QuizMCQController {
     }
 
     // ------------------- Difficulty banks -------------------
+
+    /**
+     * Returns the question bank for the specified level.
+     * @param level difficulty level
+     */
     private List<Q> generalBank(int level) {
         return switch (level) {
             case 1 -> bankEasy();
@@ -298,6 +347,9 @@ public class QuizMCQController {
         );
     }
 
+    /** Convenience method to create a Q object. */
     private static Q q(String text, List<String> options, int correctIndex) { return new Q(text, options, correctIndex); }
+
+    /** Convenience method to create a List of options. */
     private static List<String> opts(String... s) { return Arrays.asList(s); }
 }
